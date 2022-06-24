@@ -1,15 +1,14 @@
 ---
-- name: "Add Node.js from Nodesource"
-  become: true
-  shell: |
-    curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
-
 - name: "Install Node.js 13"
   become: true
-  apt:
-    name: ["nodejs"]
-    state: latest
-    update_cache: yes
+  shell: |
+    # Install Node.js LTS version as our base Node.js version
+    curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+    sudo apt install -y nodejs
+
+    # Use n version manager to use Node.js v13.8.0
+    sudo npm install --global n
+    sudo n 13.8.0
 
 - name: "Install PM2 Globally"
   npm:
