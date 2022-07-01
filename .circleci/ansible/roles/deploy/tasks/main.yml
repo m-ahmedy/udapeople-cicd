@@ -27,14 +27,6 @@
     msg: "{{ execute_node.stdout_lines }}"
 
 - name: "Configure pm2 to start as service"
-  become: true
   shell: |
-    env PATH=$PATH:/usr/local/bin pm2 startup systemd -u ubuntu --hp /home/ubuntu
-
-- name: "Enable pm2 service"
-  become: true
-  systemd:
-    state: restarted
-    daemon_reload: yes
-    name: pm2-ubuntu
-    enabled: yes
+    sudo su -c "env PATH=$PATH:/usr/local/bin pm2 startup systemd -u ubuntu --hp /home/ubuntu"
+    pm2 save
